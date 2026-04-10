@@ -1,4 +1,4 @@
-name: build
+name: build-war
 
 on:
   push:
@@ -8,8 +8,9 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
-  job1:
+  build:
     runs-on: ubuntu-latest
+
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -20,8 +21,11 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: upload artifact
+      - name: build
+        run: mvn clean package
+
+      - name: upload
         uses: actions/upload-artifact@v4
         with:
-          name: app
-          path: target/*.jar
+          name: war-file
+          path: target/*.war
